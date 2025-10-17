@@ -1,0 +1,6 @@
+spring:
+  profiles:
+    active: system, kafka, 4ga, 5ga, 5gc, dbredis, task_crons
+server:
+  port: 8081
+input: AcsSystem

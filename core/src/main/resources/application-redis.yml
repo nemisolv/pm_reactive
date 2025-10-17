@@ -1,0 +1,49 @@
+# Redis Configuration for High-Performance File Tracking
+spring:
+  redis:
+    host: ${REDIS_HOST:localhost}
+    port: ${REDIS_PORT:6379}
+    password: ${REDIS_PASSWORD:redis123}
+    database: 0
+    timeout: 3000ms
+    lettuce:
+      pool:
+        max-active: 20      # Maximum connections
+        max-idle: 10        # Maximum idle connections
+        min-idle: 5         # Minimum idle connections
+        max-wait: 10000ms   # Max wait time for connection
+      shutdown-timeout: 100ms
+
+# FTP Connection Pool Configuration
+ftp:
+  pool:
+    max-total: 20           # Maximum total FTP connections
+    max-idle: 10            # Maximum idle connections
+    min-idle: 5             # Minimum idle connections (always ready)
+    max-wait-millis: 30000  # 30 seconds max wait for connection
+  default:
+    host: ${FTP_HOST:localhost}
+    port: ${FTP_PORT:21}
+    username: ${FTP_USERNAME:ftpuser}
+    password: ${FTP_PASSWORD:ftppass}
+
+# Reactive Configuration
+reactor:
+  schedulers:
+    bounded-elastic:
+      max-threads: 50       # Maximum threads for I/O operations
+      max-queued-tasks: 1000
+      ttl: 60s              # Thread idle time before cleanup
+
+# Performance Tuning
+performance:
+  file-scanner:
+    rate: 10000             # Scan every 10 seconds (aggressive)
+    batch-size: 100         # Process up to 100 files per batch
+  downloader:
+    parallelism: 10         # Download 10 files in parallel
+    retry-attempts: 3
+    retry-delay: 2000       # 2 seconds
+  parser:
+    batch-size: 1000        # Parse 1000 counters per batch
+    parallelism: 5          # 5 parsers in parallel
